@@ -1,0 +1,4 @@
+{
+  "python.pythonPath": "/home/te-piha/Dev/NRLDraft/backend/venv/bin/python",
+  "python.analysis.extraPaths": ["backend/venv/lib/python3.10/site-packages"]
+}
