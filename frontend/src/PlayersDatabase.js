@@ -1,6 +1,6 @@
 // src/PlayersDatabase.js
 import React, { useEffect, useState, useMemo } from 'react'
-import './PlayersDatabase.css'
+import './styles/PlayersDatabase.css'
 
 const PlayersDatabase = ({ onDraftPick, draftPicks }) => {
   const [players, setPlayers] = useState([])

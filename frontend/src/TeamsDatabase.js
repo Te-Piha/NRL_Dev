@@ -1,7 +1,7 @@
 // src/TeamsDatabase.js
 import React from 'react'
 import TeamTable from './TeamTable'
-import './TeamTable.css'
+import './styles/TeamTable.css'
 
 const TeamsDatabase = ({ draftPicks, allPlayers, resetTeams, removePlayerFromTeam }) => {
   // You'll need to have the full list of all players available to look up the drafted players

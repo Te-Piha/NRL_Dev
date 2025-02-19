@@ -21,17 +21,16 @@ const App = () => {
     Honehau: [],
     Ren: [],
     Mana: [],
-    Ethan: [],
+    Ariki: [],
     Leonard: [],
     Brytyn: [],
     Wiremu: [],
-    Sydney: [],
+    Helim: [],
     TeKemara: [],
   };
 
   const [allPlayers, setAllPlayers] = useState([]); // State to hold all player data
-  const [draftPicks, setDraftPicks] = useState(() => {
-    // Load from localStorage
+  const [draftPicks, setDraftPicks] = useState(() => { // Load from localStorage
     const savedDraftPicks = localStorage.getItem('draftPicks');
     return savedDraftPicks ? JSON.parse(savedDraftPicks) : initialState;
   });
