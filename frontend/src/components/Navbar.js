@@ -1,7 +1,7 @@
 // src/NavBar.js
 import React from 'react'
 import { Link } from 'react-router-dom'
-import './styles/NavBar.css' // Make sure to create this CSS file for styling
+import '../styles/NavBar.css' // Make sure to create this CSS file for styling
 
 const NavBar = () => {
   return (

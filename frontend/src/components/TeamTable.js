@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles/TeamTable.css'
+import '../styles/TeamTable.css'
 
 const TeamTable = ({ teamName, players, removePlayerFromTeam }) => {
 

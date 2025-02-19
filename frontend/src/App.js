@@ -6,10 +6,10 @@ import {
   Routes,
   Navigate,
 } from 'react-router-dom'
-import Dashboard from './Dashboard'
-import PlayersDatabase from './PlayersDatabase' // import the component
-import TeamsDatabase from './TeamsDatabase'
-import NavBar from './Navbar'
+import Dashboard from './components/Dashboard'
+import PlayersDatabase from './components/PlayersDatabase' // import the component
+import TeamsDatabase from './components/TeamsDatabase'
+import NavBar from './components/Navbar'
 // Import other components and pages
 
 
