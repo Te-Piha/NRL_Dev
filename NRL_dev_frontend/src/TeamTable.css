@@ -1,0 +1,18 @@
+.teams-container {
+  display: flex;
+  justify-content: center;
+  width: 100%; /* Ensure the container spans the full width */
+  flex-wrap: wrap; /* Allows the items to wrap as needed */
+  gap: 1rem; /* Adds space between the items */
+}
+
+.team-table {
+  flex: 1; /* Allows the table to grow */
+  box-sizing: border-box; /* Ensures padding and border are included in the width */
+  /* Add padding, border, or other styles as needed */
+}
+
+
+.paddingHeader {
+  padding-left: 30px;
+}

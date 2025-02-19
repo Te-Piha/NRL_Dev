@@ -1,0 +1,52 @@
+table {
+  border-collapse: collapse;
+  margin: auto; /* This centers the table */
+  width: 90%; /* Define a specific width for your table */
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+  width: 100%; /* Ensure the container spans the full width */
+}
+
+thead {
+  background-color: #3ebd82;
+  color: white;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+  background-color: #ddd;
+}
+
+.injured {
+  color: red;
+}
+
+.drafted {
+  color: #5fcd99;
+}
+
+.spacing {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+button {
+  margin: 10px; /* Adds 10 pixels of space on all sides of the button */
+}
+
+/* Add margin to an input */
+input {
+  margin: 10px; /* Adds 10 pixels of space on all sides of the input */
+}
