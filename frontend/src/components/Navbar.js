@@ -16,8 +16,7 @@ const NavBar = () => {
       </Link>
       <div className="nav-links">
         <Link to="/players-database">Player Database</Link>
-        <Link to="/draft-picks-database">Teams Database</Link>
-        <Link to="/ideal-draft">Build Team</Link>
+        <Link to="/draft-tool" >Build Team</Link>
       </div>
       
     </nav>
