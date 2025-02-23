@@ -48,40 +48,47 @@ def add_ideal_pick():
     
     return jsonify({"message": "Player added"}), 201
 
-# ✅ Remove a player from ideal picks when they are drafted
-@app.route('/ideal_picks/<int:player_id>', methods=['DELETE'])
-def remove_ideal_pick(player_id):
-    data = read_storage()
-    data["ideal_picks"] = [p for p in data["ideal_picks"] if p["player_id"] != player_id]
-    
-    write_storage(data)
-    return jsonify({"message": "Player removed"}), 200
-
-# ✅ Mark a player as officially drafted
-@app.route('/drafted_players', methods=['POST'])
-def mark_player_as_drafted():
-    data = read_storage()
-    drafted_player = request.json  # Expect { "player_id": 12, "position": "HOK", "name": "John Doe" }
-
-    # Ensure the player isn't already drafted
-    if any(p['player_id'] == drafted_player['player_id'] for p in data["drafted_players"]):
-        return jsonify({"error": "Player already drafted"}), 400
-
-    # Remove player from ideal picks if drafted
-    data["ideal_picks"] = [p for p in data["ideal_picks"] if p["player_id"] != drafted_player["player_id"]]
-
-    # Add player to drafted players list
-    data["drafted_players"].append(drafted_player)
-
-    write_storage(data)
-    
-    return jsonify({"message": "Player drafted"}), 201
-
 # ✅ Fetch all drafted players
 @app.route('/drafted_players', methods=['GET'])
 def get_drafted_players():
     data = read_storage()
     return jsonify(data["drafted_players"])
 
-if __name__ == '__main__':
+# ✅ Add a player to drafted list
+@app.route('/drafted_players', methods=['POST'])
+def add_drafted_player():
+    data = read_storage()
+    new_pick = request.json  # Expect { "player_id": 22, "position": "FB", "name": "Player X" }
+
+    # Ensure no duplicate drafts
+    if any(p['player_id'] == new_pick['player_id'] for p in data["drafted_players"]):
+        return jsonify({"error": "Player already drafted"}), 400
+
+    data["drafted_players"].append(new_pick)
+    write_storage(data)
+    return jsonify({"message": "Player added to drafted list"}), 201
+
+# ✅ Remove a player from drafted list
+@app.route('/drafted_players/<int:player_id>', methods=['DELETE'])
+def remove_drafted_player(player_id):
+    data = read_storage()
+    data["drafted_players"] = [p for p in data["drafted_players"] if p['player_id'] != player_id]
+    write_storage(data)
+    return jsonify({"message": "Player removed from drafted list"}), 200
+
+# ✅ Fetch players with optional filtering & sorting
+@app.route('/players', methods=['GET'])
+def get_players():
+    players = fetch_data()
+    position = request.args.get('position')
+    sort_key = request.args.get('sort')
+
+    if position:
+        players = [p for p in players if p["position"] == position]
+    if sort_key and sort_key in players[0]:
+        players.sort(key=lambda x: x[sort_key], reverse=True)
+
+    return jsonify(players)
+
+if __name__ == "__main__":
     app.run(debug=True)
