@@ -4,7 +4,7 @@ import json
 from nrl_data_scraper import fetch_data  
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 STORAGE_FILE = "storage.json"
 
