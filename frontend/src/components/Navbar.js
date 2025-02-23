@@ -1,7 +1,8 @@
 // src/NavBar.js
 import React from 'react'
 import { Link } from 'react-router-dom'
-import '../styles/NavBar.css' // Make sure to create this CSS file for styling
+import '../styles/NavBar.css'
+
 
 const NavBar = () => {
   return (
@@ -16,7 +17,7 @@ const NavBar = () => {
       <div className="nav-links">
         <Link to="/players-database">Player Database</Link>
         <Link to="/draft-picks-database">Teams Database</Link>
-        <Link to="/draft-picks-database">Teams Database</Link>
+        <Link to="/ideal-draft">Build Team</Link>
       </div>
       
     </nav>
