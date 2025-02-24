@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlayers, addToPriorityList, removePlayer, draftPlayer, updatePriorityList, saveDraftPick } from '../redux/playerSlice';
+import { fetchPlayers, fetchDraftedPlayers, fetchPriorityList, addToPriorityList, removePlayer, updatePriorityList, saveDraftPick, savePriorityList, clearDraftedPlayers } from '../redux/playerSlice';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 
 const DraftTool = () => {
@@ -12,13 +12,21 @@ const DraftTool = () => {
 
   useEffect(() => {
     dispatch(fetchPlayers());
+    dispatch(fetchDraftedPlayers());
+    dispatch(fetchPriorityList()); // Fetch stored priority list
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(savePriorityList(priorityList)); // Save priority list on change
+  }, [priorityList, dispatch]);
 
   const handleSearch = (e) => setSearchTerm(e.target.value);
 
-  const filteredPlayers = players.filter((player) =>
-    player.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredPlayers = searchTerm
+    ? players.filter((player) =>
+        `${player.first_name} ${player.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
@@ -29,8 +37,7 @@ const DraftTool = () => {
   };
 
   const handleDraftPlayer = (player) => {
-    dispatch(draftPlayer(player));
-    dispatch(saveDraftPick(player)); // Save to backend
+    dispatch(saveDraftPick(player)); // Only dispatch API call, Redux updates from response
   };
 
   return (
@@ -42,10 +49,11 @@ const DraftTool = () => {
         value={searchTerm}
         onChange={handleSearch}
       />
+      <button onClick={() => setSearchTerm('')}>Clear Search</button>
       <ul>
         {filteredPlayers.map((player) => (
           <li key={player.id}>
-            {player.name} ({player.position})
+            {player.first_name} {player.last_name} ({player.positions})
             <button onClick={() => dispatch(addToPriorityList(player))}>➕</button>
             <button onClick={() => dispatch(removePlayer(player.id))}>❌</button>
             <button onClick={() => handleDraftPlayer(player)}>✅</button>
@@ -54,6 +62,7 @@ const DraftTool = () => {
       </ul>
       
       <h2>Priority List</h2>
+      <button onClick={() => dispatch(updatePriorityList([]))}>Clear Priority List</button>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="priorityList">
           {(provided) => (
@@ -62,7 +71,9 @@ const DraftTool = () => {
                 <Draggable key={player.id} draggableId={player.id.toString()} index={index}>
                   {(provided) => (
                     <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                      {player.name} ({player.position})
+                      {player.first_name} {player.last_name} ({player.positions})
+                      <button onClick={() => dispatch(removePlayer(player.id))}>❌</button>
+                      <button onClick={() => handleDraftPlayer(player)}>✅</button>
                     </li>
                   )}
                 </Draggable>
@@ -74,9 +85,10 @@ const DraftTool = () => {
       </DragDropContext>
       
       <h2>Drafted Team</h2>
+      <button onClick={() => dispatch(clearDraftedPlayers())}>Clear Drafted Team</button>
       <ul>
         {draftedTeam.map((player) => (
-          <li key={player.id}>{player.name} ({player.position})</li>
+          <li key={player.id}>{player.first_name} {player.last_name} ({player.positions})</li>
         ))}
       </ul>
     </div>

@@ -1,29 +1,48 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+// Fetch players from backend
 export const fetchPlayers = createAsyncThunk('players/fetchPlayers', async () => {
-    console.log("Fetching players...");
-    try {
-      const response = await fetch('http://127.0.0.1:5000/data'); 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log("Fetched data:", data);
-      return data;
-    } catch (error) {
-      console.error("Fetch players failed:", error);
-      return [];
-    }
-  });
+  const response = await fetch('http://127.0.0.1:5000/data');
+  return response.json();
+});
+
+// Fetch drafted players from backend
+export const fetchDraftedPlayers = createAsyncThunk('players/fetchDraftedPlayers', async () => {
+  const response = await fetch('http://127.0.0.1:5000/drafted_players');
+  return response.json();
+});
 
 // Persist draft picks to backend
 export const saveDraftPick = createAsyncThunk('players/saveDraftPick', async (player) => {
-  const response = await fetch('/drafted_players', {
+  const response = await fetch('http://127.0.0.1:5000/drafted_players', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(player),
   });
   return response.json();
+});
+
+// Clear drafted players from backend
+export const clearDraftedPlayers = createAsyncThunk('players/clearDraftedPlayers', async () => {
+  await fetch('http://127.0.0.1:5000/drafted_players', {
+    method: 'DELETE',
+  });
+  return [];
+});
+
+// Fetch priority list from backend
+export const fetchPriorityList = createAsyncThunk('players/fetchPriorityList', async () => {
+  const response = await fetch('http://127.0.0.1:5000/priority_list');
+  return response.json();
+});
+
+// Save priority list to backend
+export const savePriorityList = createAsyncThunk('players/savePriorityList', async (priorityList) => {
+  await fetch('http://127.0.0.1:5000/priority_list', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(priorityList),
+  });
 });
 
 const playerSlice = createSlice({
@@ -44,16 +63,8 @@ const playerSlice = createSlice({
     removePlayer: (state, action) => {
       state.priorityList = state.priorityList.filter(player => player.id !== action.payload);
     },
-    draftPlayer: (state, action) => {
-      if (!state.draftedTeam.some(player => player.id === action.payload.id)) {
-        state.draftedTeam.push(action.payload);
-      }
-    },
     updatePriorityList: (state, action) => {
       state.priorityList = action.payload;
-    },
-    clearDraftedTeam: (state) => {
-      state.draftedTeam = [];
     },
   },
   extraReducers: (builder) => {
@@ -65,15 +76,22 @@ const playerSlice = createSlice({
         state.status = 'succeeded';
         state.allPlayers = action.payload;
       })
-      .addCase(fetchPlayers.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      })
       .addCase(saveDraftPick.fulfilled, (state, action) => {
-        state.draftedTeam.push(action.payload);
+        if (!state.draftedTeam.some(player => player.id === action.payload.id)) {
+          state.draftedTeam.push(action.payload);
+        }
+      })
+      .addCase(fetchDraftedPlayers.fulfilled, (state, action) => {
+        state.draftedTeam = action.payload;
+      })
+      .addCase(fetchPriorityList.fulfilled, (state, action) => {
+        state.priorityList = action.payload;
+      })
+      .addCase(clearDraftedPlayers.fulfilled, (state) => {
+        state.draftedTeam = [];
       });
   },
 });
 
-export const { addToPriorityList, removePlayer, draftPlayer, updatePriorityList, clearDraftedTeam } = playerSlice.actions;
+export const { addToPriorityList, removePlayer, updatePriorityList } = playerSlice.actions;
 export default playerSlice.reducer;

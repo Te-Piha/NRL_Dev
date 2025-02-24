@@ -1,20 +1,5 @@
 {
-    "ideal_picks": [
-        {
-            "player_id": 501600,
-            "positions": "HOK",
-            "name": "Damien Cook"
-        },
-        {
-            "player_id": 500534,
-            "positions": "MID",
-            "name": "Isaah Yeo"
-        },
-        {
-            "player_id": 506482,
-            "positions": "EDG",
-            "name": "David Fifita"
-        }
-    ],
-    "drafted_players": []
+    "ideal_picks": [],
+    "drafted_players": [],
+    "priority_list": []
 }
