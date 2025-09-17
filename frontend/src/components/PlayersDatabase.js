@@ -17,12 +17,9 @@ const PlayersDatabase = () => {
   const [showOnlyMultiPositionPlayers, setShowOnlyMultiPositionPlayers] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Ensure players is always an array to avoid errors
-  const safePlayers = players || [];
-
   // ✅ Apply Filtering
   const filteredPlayers = useMemo(() => 
-    safePlayers.filter((player) => {
+    (players || []).filter((player) => {
       const positionMatches = filters.position ? player.positions.includes(filters.position) : true;
       const gamesPlayedMatches = filters.gamesPlayed ? player.stats.games_played >= filters.gamesPlayed : true;
       const isInjuredMatches = filters.isInjured ? player.status === 'injured' : true;
@@ -37,7 +34,7 @@ const PlayersDatabase = () => {
         multiPositionMatches
       );
     }),
-    [safePlayers, filters, hideZeroGamesOrAdp, showOnlyMultiPositionPlayers]
+    [players, filters, hideZeroGamesOrAdp, showOnlyMultiPositionPlayers]
   );
 
   // ✅ Apply Search and Sorting

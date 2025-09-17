@@ -1,20 +1,22 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:5000';
+
 // Fetch players from backend
 export const fetchPlayers = createAsyncThunk('players/fetchPlayers', async () => {
-  const response = await fetch('http://127.0.0.1:5000/data');
+  const response = await fetch(`${API_BASE_URL}/data`);
   return response.json();
 });
 
 // Fetch drafted players from backend
 export const fetchDraftedPlayers = createAsyncThunk('players/fetchDraftedPlayers', async () => {
-  const response = await fetch('http://127.0.0.1:5000/drafted_players');
+  const response = await fetch(`${API_BASE_URL}/drafted_players`);
   return response.json();
 });
 
 // Persist draft picks to backend
 export const saveDraftPick = createAsyncThunk('players/saveDraftPick', async (player) => {
-  const response = await fetch('http://127.0.0.1:5000/drafted_players', {
+  const response = await fetch(`${API_BASE_URL}/drafted_players`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(player),
@@ -24,7 +26,7 @@ export const saveDraftPick = createAsyncThunk('players/saveDraftPick', async (pl
 
 // Clear drafted players from backend
 export const clearDraftedPlayers = createAsyncThunk('players/clearDraftedPlayers', async () => {
-  await fetch('http://127.0.0.1:5000/drafted_players', {
+  await fetch(`${API_BASE_URL}/drafted_players`, {
     method: 'DELETE',
   });
   return [];
@@ -32,13 +34,13 @@ export const clearDraftedPlayers = createAsyncThunk('players/clearDraftedPlayers
 
 // Fetch priority list from backend
 export const fetchPriorityList = createAsyncThunk('players/fetchPriorityList', async () => {
-  const response = await fetch('http://127.0.0.1:5000/priority_list');
+  const response = await fetch(`${API_BASE_URL}/priority_list`);
   return response.json();
 });
 
 // Save priority list to backend
 export const savePriorityList = createAsyncThunk('players/savePriorityList', async (priorityList) => {
-  await fetch('http://127.0.0.1:5000/priority_list', {
+  await fetch(`${API_BASE_URL}/priority_list`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(priorityList),
