@@ -6,7 +6,15 @@ from flask_cors import CORS
 from nrl_data_scraper import fetch_data  
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+
+ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:3001",
+    "http://127.0.0.1:3001",
+]
+
+CORS(app, resources={r"/*": {"origins": ALLOWED_ORIGINS}})
 
 STORAGE_FILE = os.environ.get("STORAGE_FILE", "storage.json")
 
@@ -57,7 +65,7 @@ def clear_drafted_players():
     write_storage(data)
     return jsonify({"message": "All drafted players cleared"}), 200
 
-# ✅Fetch priority list
+# Fetch priority list
 @app.route('/priority_list', methods=['GET'])
 def get_priority_list():
     data = read_storage()
@@ -73,5 +81,5 @@ def save_priority_list():
     return jsonify({"message": "Priority list saved"}), 201
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 5001))
     app.run(host="0.0.0.0", port=port)
