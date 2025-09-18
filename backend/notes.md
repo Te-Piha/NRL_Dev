@@ -7,6 +7,8 @@
    - `pip install -r requirements.txt`
 3. Run the API locally:
    - `python app.py` (binds to `0.0.0.0` on `PORT` env var or 5000).
+4. Render start command:
+   - `gunicorn app:app`
 
 ## Deployment Notes
 
