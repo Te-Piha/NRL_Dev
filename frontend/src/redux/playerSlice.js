@@ -1,6 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:5000';
+const getDefaultApiBaseUrl = () => {
+  if (typeof window === 'undefined') {
+    return 'http://127.0.0.1:5001';
+  }
+
+  const { hostname } = window.location;
+  const isLocalHost = hostname === 'localhost' || hostname === '127.0.0.1';
+
+  if (isLocalHost) {
+    return 'http://127.0.0.1:5001';
+  }
+
+  return 'https://nrl-backend.onrender.com';
+};
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || getDefaultApiBaseUrl();
 
 // Fetch players from backend
 export const fetchPlayers = createAsyncThunk('players/fetchPlayers', async () => {
