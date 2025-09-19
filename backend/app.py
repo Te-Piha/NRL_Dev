@@ -7,12 +7,18 @@ from nrl_data_scraper import fetch_data
 
 app = Flask(__name__)
 
-ALLOWED_ORIGINS = [
+DEFAULT_ALLOWED_ORIGINS = {
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:3001",
     "http://127.0.0.1:3001",
-]
+    "https://nrlfantasydash.netlify.app",
+}
+
+extra_origins = os.environ.get("ALLOWED_ORIGINS", "")
+EXTRA_ALLOWED_ORIGINS = {origin.strip() for origin in extra_origins.split(",") if origin.strip()}
+
+ALLOWED_ORIGINS = list(DEFAULT_ALLOWED_ORIGINS.union(EXTRA_ALLOWED_ORIGINS))
 
 CORS(app, resources={r"/*": {"origins": ALLOWED_ORIGINS}})
 

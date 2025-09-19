@@ -14,3 +14,4 @@
 
 - Render will install dependencies via `pip install -r requirements.txt` and can be started with `gunicorn app:app`.
 - The API writes state to `storage.json`. Render’s disk is ephemeral, so consider moving persistent data to a hosted store before production use.
+- Allow additional CORS origins by setting `ALLOWED_ORIGINS` (comma-separated) in the Render dashboard if you add more frontends.
