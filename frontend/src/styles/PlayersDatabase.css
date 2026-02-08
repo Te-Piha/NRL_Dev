@@ -1,52 +1,66 @@
-table {
-  border-collapse: collapse;
-  margin: auto; /* This centers the table */
-  width: 90%; /* Define a specific width for your table */
+.table-container {
+  width: 100%;
+  padding: 20px 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
 }
 
-.table-container {
-  display: flex;
-  justify-content: center;
-  width: 100%; /* Ensure the container spans the full width */
+input[type="text"], select {
+  background: var(--panel-2);
+  border: 1px solid var(--stroke);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 0 auto 40px;
+  width: 92%;
+  background: var(--panel);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--stroke);
 }
 
 thead {
-  background-color: #3ebd82;
-  color: white;
+  background-color: rgba(71, 240, 160, 0.18);
+  color: var(--text);
 }
 
 th, td {
-  padding: 10px;
-  border: 1px solid #ddd;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--stroke);
   text-align: left;
+  font-size: 13px;
 }
 
 tbody tr:nth-child(odd) {
-  background-color: #f2f2f2;
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 tbody tr:hover {
-  background-color: #ddd;
+  background-color: rgba(71, 240, 160, 0.08);
 }
 
 .injured {
-  color: red;
+  color: #ff8a8a;
 }
 
 .drafted {
   color: #5fcd99;
 }
 
-.spacing {
-  padding-left: 10px;
-  padding-right: 10px;
+label {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
 }
 
 button {
-  margin: 10px; /* Adds 10 pixels of space on all sides of the button */
-}
-
-/* Add margin to an input */
-input {
-  margin: 10px; /* Adds 10 pixels of space on all sides of the input */
+  margin: 0;
 }

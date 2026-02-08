@@ -1,4 +1,4 @@
-#!/Users/piha/Code/NRL_Dev/backend/venv/bin/python3
+#!/Users/piha/Dev/NRL_Dev/backend/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
